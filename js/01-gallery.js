@@ -1,6 +1,7 @@
 import { galleryItems } from "./gallery-items.js";
 
 const galleryEl = document.querySelector(".gallery");
+
 const galleryMarkup = galleryItems
   .map(({ preview, original, description }) => {
     return `<div class="gallery__item">
@@ -22,21 +23,20 @@ galleryEl.addEventListener("click", onGalleryClick);
 
 function onGalleryClick(event) {
   event.preventDefault();
+
   if (!event.target.classList.contains("gallery__image")) {
     return;
   }
-  basicLightbox
-    .create(
-      `
-		<img width="1280" src="${event.target.dataset.source}">
-	`
-    )
-    .show();
+
+  const instance = basicLightbox.create(
+    `<img width="1280" src="${event.target.dataset.source}">`
+  );
+  instance.show();
 
   window.addEventListener("keydown", onEscPress);
 
-  function onEscPress(event) {
-    console.log(event.code);
-    basicLightbox.close();
+  function onEscPress() {
+    instance.close();
+    window.removeEventListener("keydown", onEscPress);
   }
 }
