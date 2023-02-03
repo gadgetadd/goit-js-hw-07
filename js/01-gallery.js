@@ -27,16 +27,19 @@ function onGalleryClick(event) {
   if (!event.target.classList.contains("gallery__image")) {
     return;
   }
-
-  const instance = basicLightbox.create(
-    `<img width="1280" src="${event.target.dataset.source}">`
-  );
+  const instanceMarkup = `<img width="1280" src="${event.target.dataset.source}">`;
+  const instanceOpts = {
+    onShow: () => {
+      window.addEventListener("keydown", onEscPress);
+    },
+    onClose: () => {
+      window.removeEventListener("keydown", onEscPress);
+    },
+  };
+  const instance = basicLightbox.create(instanceMarkup, instanceOpts);
   instance.show();
-
-  window.addEventListener("keydown", onEscPress);
 
   function onEscPress() {
     instance.close();
-    window.removeEventListener("keydown", onEscPress);
   }
 }
