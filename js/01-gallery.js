@@ -39,7 +39,10 @@ function onGalleryClick(event) {
   const instance = basicLightbox.create(instanceMarkup, instanceOpts);
   instance.show();
 
-  function onEscPress() {
+  function onEscPress(event) {
+    if (event.code !== "Escape") {
+      return;
+    }
     instance.close();
   }
 }
